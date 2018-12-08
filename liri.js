@@ -1,11 +1,23 @@
+var fs = require("fs")
 require("dotenv").config();
+var inquirer = require("inquirer");
 
-var spotifyKeys = require("keys.js")
-
-var spotify = new Spotify(keys.spotify);
-
+var spotifyKeys = require("./keys.js")
+/* var spotify = new Spotify(keys.spotify);
+ */
 //commands
-//  concert-this
+var command = process.argv[2]
+console.log(process.argv[2])
+
+ if(command === 'concert-this'){
+
+ } else if (command === 'spotify-this-song'){
+
+ } else if (command === 'movie-this') {
+         
+ }
+/* var search = artist
+ *///  concert-this
         //node liri.js concert-this <artits/band name here>
         //Search Bands in Town, artist events, API
         //("https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp")
