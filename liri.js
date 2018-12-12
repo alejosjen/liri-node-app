@@ -1,21 +1,42 @@
 var fs = require("fs")
 require("dotenv").config();
 var inquirer = require("inquirer");
+var axios = require("axios");
+var moment = require("moment");
+var bands = require("bandsintown-events");
 
-var spotifyKeys = require("./keys.js")
+
+
+var keys = require("./keys.js");
 /* var spotify = new Spotify(keys.spotify);
  */
 //commands
-var command = process.argv[2]
-console.log(process.argv[2])
+var command = process.argv[2];
+var request = process.argv[3];
 
- if(command === 'concert-this'){
 
- } else if (command === 'spotify-this-song'){
+if (command === 'concert-this') {
+        console.log(process.env.BANDS_KEY);
+        console.log(request);
+        axios.get("https://rest.bandsintown.com/artists/" + request + "/events?app_id=" + keys.bandsintown.bands_API).then(
+                function (response) {
+                        if (response.data.length === 0) {
+                                console.log("Not on tour at this time.");
+                                return;
+                        }
+                        console.log(response.data);
+                }
+        );
+} else if (command === 'spotify-this-song') {
 
- } else if (command === 'movie-this') {
-         
- }
+} else if (command === 'movie-this') {
+        axios.get("http://www.omdbapi.com/?t=r" + request + "&y=&plot=short&apikey=" + process.env.OMBD_KEY).then(
+                function (response) {
+                        console.log("The movie's rating is: " + response.data.imdbRating);
+                }
+        );
+}
+
 /* var search = artist
  *///  concert-this
         //node liri.js concert-this <artits/band name here>

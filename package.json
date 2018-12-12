@@ -18,7 +18,11 @@
   },
   "homepage": "https://github.com/alejosjen/liri-node-app#readme",
   "dependencies": {
+    "axios": "^0.18.0",
+    "bandsintown-events": "^1.0.4",
     "dotenv": "^6.2.0",
-    "inquirer": "^6.2.1"
+    "inquirer": "^6.2.1",
+    "moment": "^2.22.2",
+    "xhr2": "^0.1.4"
   }
 }
