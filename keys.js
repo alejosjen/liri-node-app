@@ -9,6 +9,6 @@ exports.bandsintown = {
   bandsAPI: process.env.BANDS_KEY
 };
 
-exports.ombd = {
-  moviesAPI: process.env.OMBD_Key
+exports.omdb = {
+  moviesAPI: process.env.OMDB_KEY
 };
