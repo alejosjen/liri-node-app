@@ -5,31 +5,33 @@ var axios = require("axios");
 var moment = require("moment");
 moment().format();
 var bandsintown = require("bandsintown-events");
-var spotify = require("node-spotify-api");
-
-
 var keys = require("./keys.js");
+var Spotify = require("node-spotify-api");
+var spotify = new Spotify({
+        id: keys.spotify.id,
+        secret: keys.spotify.secret
+});
+
 
 //commands
 var command = process.argv[2];
-var userRequest = process.argv.slice(3).join('+')
+var userRequest = process.argv.slice(3).join('+');
 
 if (command === 'concert-this') {
         console.log(userRequest);
-
+        if (!userRequest) {
+                userRequest = "Coldplay";
+        }
         axios.get("https://rest.bandsintown.com/artists/" + userRequest + "/events?app_id=" + keys.bandsintown.bandsAPI).then(
                 function (response, error) {
                         if (error) {
-                                console.log("What's going on?")
                                 return console.log(error);
                         } else if (response.data.length === 0) {
                                 console.log("No information available, maybe not on tour at this time.");
                                 return; //makeRequest();
                         } else {
                                 var concertData = response.data;
-
                                 for (var i = 0; i < concertData.length; i++) {
-                                        //Get venue name
                                         console.log(`Venue: ${concertData[i].venue.name}`);
                                         console.log(`Location: ${concertData[i].venue.city}, ${concertData[i].venue.region}`);
                                         var date = concertData[i].datetime;
@@ -40,23 +42,38 @@ if (command === 'concert-this') {
                 }
         )
 } else if (command === 'spotify-this-song') {
+        if (!userRequest) {
+                userRequest = "The Sign";
+        }
+        spotify
+                .search({ type: 'track', query: 'All the Small Things' })
+                .then(function (response) {
+                        // console.log(response.tracks.items);
+                        var songData = response.tracks.items;
+                                for (var i = 0; i < songData.length; i++) {
+                                        console.log(`${songData[0].album.artists}`)
+                                        // console.log(`Artists: ${songData[i].album.artists}`);
+                                        // console.log(`Name of song: ${songData[i].name}`);
+                                        // console.log(`Preview link from Spotify: ${songData[i].external_urls.spotify}`);
+                                        // console.log(`Album: ${songData[i].album.name}`)
+                                }
+                })
+                .catch(function (err) {
+                        console.log(err);
+                });
 
 } else if (command === 'movie-this') {
-        axios.get("http://www.omdbapi.com/?t=" + userRequest + "&y=&plot=short&apikey=trilogy").then(
+        if (!userRequest) {
+                userRequest = "Mr. Nobody";
+        }
+        axios.get("http://www.omdbapi.com/?t=" + userRequest + "&y=&plot=short&apikey=" + keys.omdb.moviesAPI).then(
+
                 function (response, error) {
+
+                        //console.log(response);
                         if (error) {
-                                return console.log(error);
-                        } else if (userRequest === "") {
-                                axios.get(`http://www.omdbapi.com/?t=Mr+Nobody&y=&plot=short&apikey=${keys.omdb.moviesAPI}`).then(
-                                console.log(`
-                                        Title & Year: ${response.data.Title} and made in ${response.data.Year}\n
-                                        IMdB's rating is: ${response.data.imdbRating}\n
-                                        Rotton Tomatoes says: ${response.data.Ratings[1].Value}\n
-                                        Country where prodcued: ${response.data.Country}\n
-                                        Language: ${response.data.Language}\n
-                                        Plot: ${response.data.Plot}\n
-                                        Actors: ${response.data.Actors}
-                                `))
+                                console.log(error);
+                                return;
                         } else {
                                 var moviesData = response.data;
                                 console.log(`
@@ -69,7 +86,6 @@ if (command === 'concert-this') {
                                         Actors: ${moviesData.Actors}
                                 `)
                         }
-
                 }
         );
 } else if (command === "do-what-it-says") {
@@ -86,6 +102,8 @@ if (command === 'concert-this') {
 //                 })
 // }
 
+
+
 // function makeRequest() {
 // inquirer
 //         .prompt([{
@@ -98,7 +116,7 @@ if (command === 'concert-this') {
 //                 message: "Enter your request.",
 //                 name: "request"
 //         }
-//         ]).then(answers => {
+//         ]).then(function(answers) {
 //                 if (answers.choices === "concert-this") {
 //                         return bands();
 //                 }
@@ -113,6 +131,10 @@ if (command === 'concert-this') {
 //                 }
 //         });        
 //}
+
+
+
+
 //  spotify-this-song
     //Use node-spotify-api
         //node liri.js spotify-this-song '<song name here>'
