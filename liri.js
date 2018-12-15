@@ -4,7 +4,6 @@ var inquirer = require("inquirer");
 var axios = require("axios");
 var moment = require("moment");
 moment().format();
-var bandsintown = require("bandsintown-events");
 var keys = require("./keys.js");
 var Spotify = require("node-spotify-api");
 var spotify = new Spotify({
@@ -16,6 +15,7 @@ var spotify = new Spotify({
 //commands
 var command = process.argv[2];
 var userRequest = process.argv.slice(3).join('+');
+var divider = "-------------------------------";
 
 if (command === 'concert-this') {
         console.log(userRequest);
@@ -33,35 +33,40 @@ if (command === 'concert-this') {
                                 var concertData = response.data;
                                 for (var i = 0; i < concertData.length; i++) {
                                         console.log(`Venue: ${concertData[i].venue.name}`);
-                                        console.log(`Location: ${concertData[i].venue.city}, ${concertData[i].venue.region}`);
+                                        console.log(`Location: ${concertData[i].venue.city} ${concertData[i].venue.region}`);
                                         var date = concertData[i].datetime;
                                         date = moment(date).format("MM/DD/YYYY");
                                         console.log(`Date: ${date}`);
+                                        console.log(divider)
                                 }
                         }
                 }
         )
 } else if (command === 'spotify-this-song') {
         if (!userRequest) {
-                userRequest = "The Sign";
+                userRequest = "The Sign, Ace of Base";
         }
-        spotify
-                .search({ type: 'track', query: 'All the Small Things' })
-                .then(function (response) {
-                        // console.log(response.tracks.items);
-                        var songData = response.tracks.items;
-                                for (var i = 0; i < songData.length; i++) {
-                                        console.log(`${songData[0].album.artists}`)
-                                        // console.log(`Artists: ${songData[i].album.artists}`);
-                                        // console.log(`Name of song: ${songData[i].name}`);
-                                        // console.log(`Preview link from Spotify: ${songData[i].external_urls.spotify}`);
-                                        // console.log(`Album: ${songData[i].album.name}`)
-                                }
-                })
-                .catch(function (err) {
-                        console.log(err);
-                });
+        spotify.search({ type: 'track', query: userRequest }, function (err, data) {
+                if (err) {
+                        return console.log('Error occurred: ' + err);
+                }
+                var albumData = data.tracks.items;
+                for (var i = 0; i < albumData.length; i++) {
+                        var albumInfo = albumData[i].album;
+                        var artistName = albumInfo.artists;
+                        var songName = albumData[i].name;
+                        var songPreview = albumData[i].preview_url;
+                        var albumName = albumData[i].album.name;
 
+                        for (var j = 0; j < artistName.length; j++) {
+                                console.log(`Artist(s): ${artistName[j].name}`); //artists
+                                console.log(`Name of song: ${songName}`); //name of album
+                                console.log(`Preview link from Spotify: ${songPreview}`);
+                                console.log(`Album: ${albumName}}`);
+                                console.log(divider)
+                        };
+                };
+        });
 } else if (command === 'movie-this') {
         if (!userRequest) {
                 userRequest = "Mr. Nobody";
@@ -77,13 +82,14 @@ if (command === 'concert-this') {
                         } else {
                                 var moviesData = response.data;
                                 console.log(`
-                                        Title & Year: ${moviesData.Title} and made in ${moviesData.Year}\n
-                                        IMdB's rating is: ${moviesData.imdbRating}\n
-                                        Rotton Tomatoes says: ${moviesData.Ratings[1].Value}\n
-                                        Country where prodcued: ${moviesData.Country}\n
-                                        Language: ${moviesData.Language}\n
-                                        Plot: ${moviesData.Plot}\n
-                                        Actors: ${moviesData.Actors}
+                                        \nTitle & Year: ${moviesData.Title}, made in ${moviesData.Year}
+                                        \nIMdB's rating is: ${moviesData.imdbRating}
+                                        \nRotton Tomatoes says: ${moviesData.Ratings[1].Value}
+                                        \nCountry where produced: ${moviesData.Country}
+                                        \nLanguage: ${moviesData.Language}
+                                        \nPlot: ${moviesData.Plot}
+                                        \nActors: ${moviesData.Actors}
+                                        \n${divider}
                                 `)
                         }
                 }
