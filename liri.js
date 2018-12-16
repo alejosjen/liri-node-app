@@ -67,13 +67,31 @@ function concerts() {
                     try {
                         var concertData = response.data;
                         for (var i = 0; i < concertData.length; i++) {
+                            var venue = concertData[i].venue.name;
+                            var location = concertData[i].venue.city
+                            var region = concertData[i].venue.region
+
                             console.log(divider);
-                            console.log(`Venue: ${concertData[i].venue.name}`);
-                            console.log(`Location: ${concertData[i].venue.city} ${concertData[i].venue.region}`);
+                            console.log(`Venue: ${venue}`);
+                            console.log(`Location: ${location} ${region}`);
                             var date = concertData[i].datetime;
                             date = moment(date).format("MM/DD/YYYY");
                             console.log(`Date: ${date}`);
                             console.log(divider);
+
+                            fs.appendFileSync("log.txt",
+                                "Artist/Band: " + bandName +
+                                "\nVenue: " + venue +
+                                "\nLocation " + location + " " + region +
+                                "\nDate: " + date +
+                                "\n-----------------\n",
+                                function (error) {
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log("Search results stored!");
+                                    };
+                                });
                         }
                     } catch (error) {
                         console.log(error);
@@ -114,13 +132,26 @@ function songs() {
                         var albumName = albumData[i].album.name;
 
                         for (var j = 0; j < artistName.length; j++) {
-                            console.log(`Artist(s): ${artistName[j].name}`);
+                            var artistsNames = artistName[j].name;
+                            console.log(`Artist(s): ${artistsNames}`);
                             console.log(`Name of song: ${songName}`);
                             console.log(`Preview link from Spotify: ${songPreview}`);
-                            console.log(`Album: ${albumName}}`);
+                            console.log(`Album: ${albumName}`);
                             console.log(divider)
                         }
                     }
+                    fs.appendFileSync("log.txt", "Artist(s): " + artistsNames +
+                        "\nName of song: " + songName +
+                        "\nPreview link from Spotify: " + songPreview +
+                        "\nAlbum: " + albumName +
+                        "\n-----------------\n",
+                        function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log("Search results stored!");
+                            };
+                        });
                 } catch (error) {
                     console.log(error);
                 }
@@ -148,31 +179,42 @@ function movies() {
         }
         axios.get("http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=" + keys.omdb.moviesAPI).then(
             function (response) {
-                    try {
-                        var moviesData = response.data;
-                        var movieTitle = moviesData.Title;
-                        var movieYear = moviesData.Year;
-                        var imdbRating = moviesData.imdbRating;
-                        var rottenRating = moviesData.Ratings[1].Value;
-                        var country = moviesData.Country;
-                        var language = moviesData.Language;
-                        var plot = moviesData.Plot;
-                        var actors = moviesData.Actors;
-                        
-                        console.log(`${divider}`);
-                        console.log(`Title & Year: ${movieTitle}, made in ${movieYear}`);
-                        console.log(`IMdB's rating is: ${imdbRating}`);
-                        console.log(`Rotton Tomatoes says: ${rottenRating}`);
-                        console.log(`Country where produced: ${country}`);
-                        console.log(`Language: ${language}`);
-                        console.log(`Plot: ${plot}`);
-                        console.log(`Actors: ${actors}`);
-                        console.log(`${divider}`);
-                        makeChoice();
+                try {
+                    var moviesData = response.data;
+                    var movieTitle = moviesData.Title;
+                    var movieYear = moviesData.Year;
+                    var imdbRating = moviesData.imdbRating;
+                    var rottenRating = moviesData.Ratings[1].Value;
+                    var country = moviesData.Country;
+                    var language = moviesData.Language;
+                    var plot = moviesData.Plot;
+                    var actors = moviesData.Actors;
 
-                    } catch (error) {
-                        console.log("Error: " + error);
-                    }
+                    console.log(`${divider}`);
+                    console.log(`Title & Year: ${movieTitle}, made in ${movieYear}`);
+                    console.log(`IMdB's rating is: ${imdbRating}`);
+                    console.log(`Rotton Tomatoes says: ${rottenRating}`);
+                    console.log(`Country where produced: ${country}`);
+                    console.log(`Language: ${language}`);
+                    console.log(`Plot: ${plot}`);
+                    console.log(`Actors: ${actors}`);
+                    console.log(`${divider}`);
+
+                    fs.appendFileSync("log.txt", "Title & Year: " + moviesData.Title + ", " + moviesData.Year +
+                        "\nIMdB's rating is: " + moviesData.imdbRating + ", Rotton Tomatoes says: " + moviesData.Ratings[1].Value +
+                        "\nCountry where produced: " + moviesData.Country + ", Language: " + moviesData.Language +
+                        "\nPlot: " + moviesData.Plot + "\nActors: " + moviesData.Actors + "\n-----------------\n",
+                        function (error) {
+                            if (error) {
+                                console.log(error);
+                            } else {
+                                console.log("Search results stored!");
+                            };
+                        });
+
+                } catch (error) {
+                    console.log("Error: " + error);
+                }
             }, function (error) {
                 console.log("Error: ");
                 if (error) {
