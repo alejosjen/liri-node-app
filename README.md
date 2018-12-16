@@ -22,8 +22,6 @@ There's a fun section of file information sharing with the "do-what-it-says" opt
 
 ![Liri Project Image](/assets/images/node_screencast_img.png)
 
-Format: ![Liri Project screencast image of screen and thank you for watching!](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
-
 [Link to video](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
 Thanks for reading! Any suggestions or constructive feedback always appreciated!
