@@ -11,10 +11,6 @@ var spotify = new Spotify({
     secret: keys.spotify.secret
 });
 
-
-//commands
-// var command = process.argv[2];
-var userRequest = process.argv.slice(2).join('+');
 var divider = "-------------------------------";
 
 function makeChoice() {
@@ -26,7 +22,6 @@ function makeChoice() {
             choices: ["concert-this", "spotify-this-song", "movie-this", "do-what-it-says"]
         }
         ]).then(function (media) {
-            function selection() {
                 if (media.userInput === "concert-this") {
                     concerts();
                 }
@@ -39,8 +34,6 @@ function makeChoice() {
                 else if (media.userInput === "do-what-it-says") {
                     other();
                 }
-            }
-            selection();
         });
 }
 
@@ -61,7 +54,7 @@ function concerts() {
         axios.get("https://rest.bandsintown.com/artists/" + bandName + "/events?app_id=" + keys.bandsintown.bandsAPI).then(
             function (response) {
                 if (response.data.length === 0 || typeof response.data !== 'object') {
-                    console.log("No information available, maybe not on tour at this time.");
+                    console.log("No information available, may be not on tour at this time.");
                     makeChoice();
                 } else {
                     try {
@@ -106,7 +99,6 @@ function concerts() {
         )
     });
 }
-
 
 function songs() {
     inquirer.prompt([
@@ -248,8 +240,3 @@ function other() {
         console.log(data);
     })
 };
-
-
-//Bonus
-    //Log output to log.txt
-    //Append each command to log.txt, do not overwrite the file each time
