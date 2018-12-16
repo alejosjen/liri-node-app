@@ -1,4 +1,4 @@
-# [liri-node-app](https://alejosjen.github.io/liri-node-app/)
+# [liri-node-app](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
 This is a node application for someone looking up concert information, song info and music previews, and movie stats. The app will write your results in the log file and save all of your information for your later perusal.
 
@@ -21,7 +21,9 @@ I'm glad to have learned how to keep API keys secret using dotenv and a keys fil
 There's a fun section of file information sharing with the "do-what-it-says" option, it reads random text and starts up one of the search calls.
 
 ![Liri Project](/images/node_screencast_img.png)
+
 Format: ![Liri Project screencast image of screen and thank you for watching!](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
+
 [Link to video](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
 Thanks for reading! Any suggestions or constructive feedback always appreciated!
