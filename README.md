@@ -20,7 +20,7 @@ I'm glad to have learned how to keep API keys secret using dotenv and a keys fil
 
 There's a fun section of file information sharing with the "do-what-it-says" option, it reads random text and starts up one of the search calls.
 
-![Liri Project](/images/node_screencast_img.png)
+![Liri Project Image](/images/node_screencast_img.png)
 
 Format: ![Liri Project screencast image of screen and thank you for watching!](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
