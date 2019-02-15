@@ -11,18 +11,19 @@ Node packages used
 * Axios, fs, dotenv
 * Momentjs, node-spotify-api
 
+To USE:
 
-The hard part was checking for errors with returned data. It is still a struggle to know where to put things, but I learned a lot about try and catch. I also learned to prevent errors with coding checks before the function gets too far. 
+Run npm i to load axios, fs, dotenv, moment, and node-spotify-api. Get your API keys from BandsInTown, Spotify and OMdB and save them in a .env file to access them from a keys file to protect the information from abuse. Make a log file to store the results using the file system (fs). In your main file create a series of if/else statements to run commands that will access the APIs, so if a user types in movies, the if statements will lead to that action and print out the results on screen and write to the log.
 
+In the video demo you'll see input validation to catch random characters and blank entries, so there is also a little RegEx involved which you can find in the code. On blank entries the code will send a hard coded search term to return results.
 
-I'm glad to have learned how to keep API keys secret using dotenv and a keys file. It opens the door to using more databases that require a little more security.
+Just a side note: The API keys are quick to get, but you'll need to write a sentence or two for BandsInTown to request it.
 
+[This link will demo the process of searching bands, music, and movies.](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
-There's a fun section of file information sharing with the "do-what-it-says" option, it reads random text and starts up one of the search calls.
 
 ![Liri Project Image](/assets/images/node_screencast_img.png)
 
-[Link to video](https://drive.google.com/file/d/1L-5UOmtUHh4QRJBP9LIeDQTlCYjDvqQK/view)
 
 Thanks for reading! Any suggestions or constructive feedback always appreciated!
 [Jennifer Alejos](http://www.jenalejos.com)
